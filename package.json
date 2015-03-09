@@ -1,0 +1,34 @@
+{
+  "name": "infolis-schema",
+  "version": "0.0.1",
+  "description": "Mongoose / JSON-LD schema for Infolis",
+  "scripts": {
+    "test": "coffee test/* | tap-spec",
+    "docs": "docker -i src -o apidocs -s -n -c vs",
+    "compile": "coffee -c -o lib src",
+    "clean": "rm -r apidocs lib ; true",
+    "prepublish": "npm run compile"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/infolis/infolis-schema"
+  },
+  "author": "kba",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/infolis/infolis-schema/issues"
+  },
+  "homepage": "https://github.com/infolis/infolis-schema",
+  "dependencies": {
+    "async": "^0.9.0",
+    "merge": "^1.2.0",
+    "mongoose": "^3.8.24"
+  },
+  "devDependencies": {
+    "coffee-script": "^1.9.1",
+    "docker": "^0.2.14",
+    "tap-spec": "^2.2.2",
+    "tapes": "^0.4.1"
+  },
+  "main": "lib/index.js"
+}
