@@ -1,14 +1,13 @@
-Async = require 'async'
 test = require 'tapes'
-
-mod = require '../src'
-
-DEBUG=false
-# DEBUG=true
+Async = require 'async'
+TSON = require 'tson/src/'
 
 testFunc = (t) ->
-	console.log mod.schema
+	x = TSON.load 'src/infolis.tson'
+	console.log x
+	t.end()
 	# Async.each [0,0,0], (number, cb) ->
+	#
 	#     t.equals number, 0, 'Number is zero'
 	#     cb()
 	# , () -> t.end()
