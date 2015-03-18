@@ -1,0 +1,7 @@
+{
+	configuration: 'http://infolis/api/configurations/1'
+	startTime: 'Tue Mar 17 10:17:28 CET 2015'
+	state: 'NOT_STARTED'
+	endTime: null
+	outputFiles: '...'
+}

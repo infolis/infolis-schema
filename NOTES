@@ -1,0 +1,42 @@
+Tue Mar 17 10:48:25 CET 2015
+============================
+
+Webservice kommuniziert mit Java-Backend ueber Message Queue
+
+Algorithmen sind Instanzen von Algorithmus und definieren Input- und OutputParameter
+
+Konfigurationen sind Instanzen und definieren 
+* Algorithmus
+* Inputparameter
+* Logging
+
+Executions sind Instanzen von Execution und enthalten
+* die Konfiguration
+* Outputparameter
+* Start/Endzeit
+* Log (Link auf?)
+* State (WIN, FAIL, WAITING)
+
+Jeder Algorithmus muss am Ende (acuh bei Scheitern) sein log POSTen and
+/api/log und in die Execution schreiben
+
+Alternative: Jeder Log-Eintrag wird direkt gespeichert:
+* Per PATCH an /api/log (HTTP Overhead!)
+* Per Message queue (execution.on('log', (message) ...) (Intransparent)
+=> Muss java-seitig implementiert werden, Custom appender für logback log4j whatever
+
+Workflows: Wir bauen keine allgemein nutzbare Workflowengine, weil
+* es viel viel effizienter ist
+* Algorithmen nur in Serie ausgeführt werden (ausser Bootstrap)
+* Jeder Algorithmus eine Resource ist, versionierbar usw.
+* Logs interessanter sind als RDF-Graphen von Komponenten
+
+Algorithmen müssen beschrieben werden, bsp, bw
+* pdf2text: Wandelt pdf in txt um
+* pdfLearner: Wandelt pdf in txt um und extrahiert patterns
+
+
+Dateien:
+* Wir speichern, aber stellen nicht zur Verfügung
+* Dateien nur abrufbar wenn Server IP(Range) == Client IP(Range)
+* Möglichst minimieren Dateien über Netzwerk zu transportieren

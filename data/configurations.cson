@@ -1,0 +1,4 @@
+{
+	forAlgorithm: 'http://infolis/api/algorithms/pdf2text-0.0.1'
+	inputFile: 'http://infolis/api/file/foobarquux.pdf'
+}

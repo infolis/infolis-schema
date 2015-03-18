@@ -1,0 +1,195 @@
+@ns
+	infolis <http://www-test.bib.uni-mannheim.de/schema/>
+	dc      <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+	dc      <http://purl.org/dc/elements/1.1/>
+	owl     <http://www.w3.org/2002/07/owl#>
+	rdfs    <http://www.w3.org/2000/01/rdf-schema#>
+	skos    <http://www.w3.org/2004/02/skos/core#>
+	xsd     <http://www.w3.org/2001/XMLSchema#>
+	dcterms <http://purl.org/dc/terms/>
+	schema  <http://schema.org/>
+	bibo    <http://purl.org/ontology/bibo/>
+	foaf    <http://xmlns.com/foaf/0.1/>
+	science <http://semanticscience.org/resource></http:>
+	dqm     <http://purl.org/dqm-vocabulary/v1/dqm#>
+	uri4uri <http://uri4uri.net/vocab#>
+	dm2e    <http://onto.dm2e.eu/schema/dm2e/>
+	omnom   <http://onto.dm2e.eu/schema/omnom/>
+
+@context
+	@id: infolis:
+	dc:description "Infolis Data model"
+	dc:version
+		@value "2015-03-15"
+		@type xsd:int
+
+Algorithm
+	@context
+		dc:description "An algorithm, a set of steps to calculate something from input, producing output."
+		owl:sameAs science:SIO_000094
+	creator
+		@context
+			@id dc:creator
+		type: [{ type: 'ObjectId', ref: 'Person' }]
+	name
+		@context
+			@id dc:title
+			dc:description "Name of the Algorithm"
+		type String
+	lastModified
+		@context
+			@id dc:modified
+		type Date
+
+Execution
+	@context
+		dc:description "The concrete execution of an Algorithm"
+		rdfs:subClassOf 
+			@id schema:Action
+		rdfs:seeAlso 
+			@id: infolis:Algorithm
+	startTime
+		@context
+			@id schema:startTime
+			@type xsd:date
+			dc:description "Timestamp of the begin of this execution"
+		type Date
+	endTime
+		@context
+			@id schema:endTime
+			@type xsd:date
+			dc:description "Timestamp when the execution of this algorithm finished."
+		type Date
+
+Configuration
+	@context
+		dc:description 'A JSON document defining the inputs and environments of an Execution'
+		rdfs:seeAlso omnom:Configuration
+	forAlgorithm
+		@context
+			@id schema:algorithm
+		type: [{ type: 'ObjectId', ref: 'Algorithm' }]
+
+Pattern
+	@context
+		dc:description 'A Regular Expression pattern'
+	regex
+		@context
+			@id dqm:regex
+		type String
+
+File
+	@context
+		@id omnom:File
+	fileRetrievalURI
+		@context
+			@type @id
+			@id omnom:fileRetrievalURI
+		type String
+		validate 'validateURI'
+	fileStatus
+		@context
+			@id omnom:fileStatus
+		type: String
+		enum: [
+			'AVAILABLE'
+			'DELETED'
+		]
+	md5
+		@context
+			@id omnom:md5
+			@type xsd:string
+			dc:description "MD5 checksum"
+		type String
+		validate 'validateMD5'
+
+Person
+	@context
+		@id foaf:Person
+	surname
+		@context 'foaf:'
+		type String
+	given
+		@context
+			@id foaf:givenName
+		type String
+
+Publication
+	@context
+		@id bibo:Document
+		dc:description 'A publication, see'
+	author
+		@context
+			@id bibo:author
+		type: [{ type: 'ObjectId', ref: 'Person' }]
+	title
+		@context
+			@id dc:title
+		type String
+	type
+		@context
+			dc:description "The values are the same as those in citeproc"
+			@id dc:format
+		type String
+		enum: [
+			"article", "article-magazine", "article-newspaper", "article-journal", "bill", "book", "broadcast", "chapter", "dataset", "entry",
+			"entry-dictionary", "entry-encyclopedia", "figure", "graphic", "interview", "legislation", "legal_case", "manuscript", "map", 
+			"motion_picture", "musical_score", "pamphlet", "paper-conference", "patent", "post", "post-weblog", "personal_communication", "report",
+			"review", "review-book", "song", "speech", "thesis", "treaty", "webpage"
+		]
+	
+Dataset
+	@context
+		dc:description "A published set of data"
+	title
+		@context
+			@id dc:title
+		type String 
+	version
+		@context
+			@id doap:version
+		type String
+
+StudyContext
+	@context
+		dc:description "A pattern matching a study name within the textual context within a document."
+	studyTerm
+		@context
+			dc:description "The term found"
+			@type xsd:string
+		type String
+	leftContext
+		@context
+			dc:description "The words to the left of the study term"
+		type: [{type: 'String'}]
+	rightContext
+		@context
+			dc:description "The words to the right of the study term"
+		type: [{type: 'String'}]
+	pattern
+		@context
+			dc:description "The regular pattern used"
+		type: [{type: 'ObjectId', ref: 'Pattern'}]
+	document
+		@context
+			dc:description "The file from which this context was pulled."
+			@id prov:used
+		type: [{type: 'ObjectId', ref: 'File'}]
+
+DatasetToPublicationLink
+	@context
+		dc:description "A link from a publication to a dataset"
+		rdfs:seeAlso infolis:Publication
+		rdfs:seeAlso infolis:Dataset
+	publication
+		@context
+			dc:description "The Publication within a Link"
+		type: [{ type: 'ObjectId', ref: 'Publication' }]
+	dataset
+		@context
+			dc:description "The Dataset within a Link"
+		type: [{ type: 'ObjectId', ref: 'Dataset' }]
+	confidence
+		@context
+			dc:description "A confidence value for how sure we are of this link TODO"
+		type String

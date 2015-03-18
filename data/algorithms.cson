@@ -1,0 +1,16 @@
+[
+	{
+		title: "pdf2text"
+		version: "2015-01-25"
+		inputParams: {
+			pdfFiles: {
+				type: 'Array'
+			}
+		}
+		outputParams: {
+			textFiles: {
+				type: 'Array'
+			}
+		}
+	}
+]
