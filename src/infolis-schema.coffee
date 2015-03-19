@@ -75,11 +75,14 @@ _readSchemas = (schemology, mongooseJSONLD, dbConnection) ->
 	for schemaName, schemaDef of schemology
 		continue if schemaName.indexOf('@') == 0
 		schemaDef = JSON.parse JSON.stringify schemaDef
-		ctx = schemaDef['@context']
+		contexts = []
+		schemaContext = schemaDef['@context']
+		schemaContext['rdf:type'] = 'rdfs:Class'
+		contexts.push schemaContext
 		delete schemaDef['@context']
-		delete ctx['@id']
+		# XXX
+		# delete ctx['@id']
 		for propName, propDef of schemaDef
-			# continue if propName.indexOf('@') == 0
 
 			# handle validate functions
 			if propDef['validate']
@@ -99,12 +102,16 @@ _readSchemas = (schemology, mongooseJSONLD, dbConnection) ->
 				propDef['type'] = _typeMap[propDef['type']]
 
 			if typeof propDef['@context'] is 'object'
-				ctx[propName] = propDef['@context']
+				propContext = propDef['@context']
+				propContext['rdf:type'] = 'rdfs:Property'
+				propContext['schema:domainIncludes'] or= []
+				propContext['schema:domainIncludes'].push {'@id': schemaContext['@id']}
+				contexts.push propContext
 			else 
 				console.log 'UNHANDLED @context being a string'
 				null # TODO handle string context
 
-		thisSchema = new Mongoose.Schema(schemaDef, {'@context': ctx})
+		thisSchema = new Mongoose.Schema(schemaDef, {'@context': contexts})
 		thisSchema.plugin(mongooseJSONLD.createMongoosePlugin())
 		# console.log thisSchema.paths?.creator?.options
 		# console.log thisSchema instanceof Mongoose.Schema
@@ -123,6 +130,8 @@ class InfolisSchemas
 		if @schemology instanceof Error
 			throw @schemology
 		@ns = _readNamespaces(@schemology)
+		if opts.baseURI
+			@ns['infolis'] = opts.baseURI
 		@j2r = new JsonLD2RDF(
 			baseURI: @ns['infolis']
 			expandContext: @ns
@@ -138,8 +147,7 @@ class InfolisSchemas
 
 
 	getOntology : (format, cb) ->
-		if typeof format is 'function' then [cb, format, j2rOpts] = [format, 'jsonld', {}]
-		if typeof j2rOpts is 'function' then [cb, j2rOpts] = [j2rOpts, {}]
+		if typeof format is 'function' then [cb, format] = [format, 'jsonld']
 		throw new Error("Must provide cb") unless cb
 
 		format or= 'jsonld'
