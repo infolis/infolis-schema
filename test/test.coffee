@@ -1,29 +1,30 @@
 test           = require 'tapes'
-InfolisSchemas = require '../src'
+InfolisSchemas = require '../src/infolis-schema'
 Mongoose       = require 'mongoose'
 
 dbConnection = Mongoose.createConnection('mongodb://localhost:27018/test')
 
-infolisSchemas = new InfolisSchemas(__dirname + '/../data/infolis.tson', dbConnection)
-{ Publication, Algorithm, Person } = infolisSchemas.mongoose.model
+infolisSchemas = new InfolisSchemas(
+	pathToSchemology: __dirname + '/../data/infolis.tson',
+	dbConnection: dbConnection)
+{ Publication, Algorithm, Person } = infolisSchemas.models
 
 testFunc = (t) ->
-
-	infolisSchemas.getOntology 'turtle', (err, data) ->
-		# console.log data
-		person = new Person {
-			given: 'John'
-			surname: 'Doe'
+	END = -> dbConnection.close();t.end()
+	person = new Person {
+		given: 'John'
+		surname: 'Doe'
+	}
+	person.save (err) ->
+		algo = new Algorithm {
+			name:'bla'
+			creator: person._id
 		}
-		person.save (err) ->
-			algo = new Algorithm {
-				name:'bla'
-				creator: person._id
-			}
-			algo.save (err, saved) ->
-				console.log err
-				console.log saved
-				return t.end()
+		algo.save (err, saved) ->
+			console.log err
+			console.log saved
+			console.log algo.jsonldABox()
+			END()
 
 # testFunc2 = (t) ->
 #     algo = Algorithm.create {
@@ -40,6 +41,11 @@ testFunc = (t) ->
 #
 
 test "Basic test", testFunc
+test "Ontology turtle", (t) ->
+	infolisSchemas.models.Algorithm.jsonldTBox {to: 'turtle'}, (err, data) ->
+		console.log data
+	# infolisSchemas.jsonldTBox {'to': 'turtle'}, (err, data) ->
+		# console.log data
 # test "Basic test", testFunc2
 # test "Basic test", testFunc3
 

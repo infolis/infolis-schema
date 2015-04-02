@@ -1,16 +1,12 @@
+# vim: ft=coffee :
 [
 	{
 		title: "pdf2text"
 		version: "2015-01-25"
-		inputParams: {
-			pdfFiles: {
-				type: 'Array'
-			}
-		}
-		outputParams: {
-			textFiles: {
-				type: 'Array'
-			}
-		}
+		javaClass: "de.mannheim.uni.algorithm.PDF2Text"
+		inputValues:
+			pdfFiles: [{ type: 'Int', ref: 'File' }]
+		outputValues:
+			textFiles: [{ type: 'Array', ref: 'File' }]
 	}
 ]

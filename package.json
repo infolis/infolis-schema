@@ -22,16 +22,17 @@
   "dependencies": {
     "async": "^0.9.0",
     "deepmerge": "^0.2.7",
-    "jsonld-rapper": "0.0.8",
+    "jsonld-rapper": "0.0.9",
     "merge": "^1.2.0",
-    "mongoose": "^3.8.24",
-    "tson": "0.0.3"
+    "mongoose": "^4.0.1",
+    "mongoose-jsonld": "^0.1.5",
+    "tson": "0.0.5"
   },
   "devDependencies": {
     "coffee-script": "^1.9.1",
     "docker": "^0.2.14",
     "tap-spec": "^2.2.2",
-    "tapes": "^0.4.1"
+    "tapes": "^2.0.0"
   },
   "main": "lib/index.js"
 }

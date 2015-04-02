@@ -1,6 +1,7 @@
+# vim: ft=turtleson ts=2 list :
 @ns
-	# infolis <http://www-test.bib.uni-mannheim.de/schema/>
-	infolis <http://localhost:3000/schema/>
+	infolis <http://www-test.bib.uni-mannheim.de/infolis/schema/>
+	# infolis <http://localhost:3000/schema/>
 	dc      <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 	dc      <http://purl.org/dc/elements/1.1/>
 	owl     <http://www.w3.org/2002/07/owl#>
@@ -11,7 +12,7 @@
 	schema  <http://schema.org/>
 	bibo    <http://purl.org/ontology/bibo/>
 	foaf    <http://xmlns.com/foaf/0.1/>
-	science <http://semanticscience.org/resource></http:>
+	science <http://semanticscience.org/resource/>
 	dqm     <http://purl.org/dqm-vocabulary/v1/dqm#>
 	uri4uri <http://uri4uri.net/vocab#>
 	dm2e    <http://onto.dm2e.eu/schema/dm2e/>
@@ -23,31 +24,43 @@
 	dc:version
 		@value "2015-03-15"
 		@type xsd:int
+	rdfs:seeAlso
+		@type @id
 
 Algorithm
 	@context
 		dc:description "An algorithm, a set of steps to calculate something from input, producing output."
-		owl:sameAs science:SIO_000094
+		owl:sameAs
+			@id science:SIO_000094
 	creator
-		@context
-			@id dc:creator
 		type: [{ type: 'ObjectId', ref: 'Person' }]
+		@context
+			owl:sameAs 
+				@id dc:creator
+			dc:description: "The author/maintainer of this algorithm"
 	name
+		type String
 		@context
 			@id dc:title
 			dc:description "Name of the Algorithm"
-		type String
 	lastModified
-		@context
-			@id dc:modified
 		type Date
+		@context
+			owl:sameAs
+				@id: dc:modified
+			dc:description "Last time the algorithm was updated"
+	javaClass
+		type: String
+		validate: 'validateJavaClass'
+		@context
+			dc:description "The java class that implements this algorithm"
 
 Execution
 	@context
 		dc:description "The concrete execution of an Algorithm"
 		rdfs:subClassOf 
 			@id schema:Action
-		rdfs:seeAlso 
+		rdfs:seeAlso
 			@id: infolis:Algorithm
 	startTime
 		@context
@@ -65,7 +78,8 @@ Execution
 Configuration
 	@context
 		dc:description 'A JSON document defining the inputs and environments of an Execution'
-		rdfs:seeAlso omnom:Configuration
+		rdfs:seeAlso 
+			@id omnom:Configuration
 	forAlgorithm
 		@context
 			@id schema:algorithm
@@ -107,8 +121,8 @@ File
 Person
 	@context
 		@id foaf:Person
+		@vocab 'foaf:'
 	surname
-		@context 'foaf:'
 		type String
 	given
 		@context
@@ -133,12 +147,12 @@ Publication
 			@id dc:format
 		type String
 		enum: [
-			"article", "article-magazine", "article-newspaper", "article-journal",
-			"bill", "book", "broadcast", "chapter", "dataset", "entry",
-			"entry-dictionary", "entry-encyclopedia", "figure", "graphic",
-			"interview", "legislation", "legal_case", "manuscript", "map",
-			"motion_picture", "musical_score", "pamphlet", "paper-conference",
-			"patent", "post", "post-weblog", "personal_communication", "report",
+			"article", "article-magazine", "article-newspaper", "article-journal"
+			"bill", "book", "broadcast", "chapter", "dataset", "entry"
+			"entry-dictionary", "entry-encyclopedia", "figure", "graphic"
+			"interview", "legislation", "legal_case", "manuscript", "map"
+			"motion_picture", "musical_score", "pamphlet", "paper-conference"
+			"patent", "post", "post-weblog", "personal_communication", "report"
 			"review", "review-book", "song", "speech", "thesis", "treaty", "webpage"
 		]
 	
@@ -173,6 +187,7 @@ StudyContext
 	pattern
 		@context
 			dc:description "The regular pattern used"
+			@type @id
 		type: [{type: 'ObjectId', ref: 'Pattern'}]
 	document
 		@context
@@ -183,8 +198,10 @@ StudyContext
 DatasetToPublicationLink
 	@context
 		dc:description "A link from a publication to a dataset"
-		rdfs:seeAlso infolis:Publication
-		rdfs:seeAlso infolis:Dataset
+		rdfs:seeAlso 
+			@id infolis:Publication
+		rdfs:seeAlso
+			@id infolis:Dataset
 	publication
 		@context
 			dc:description "The Publication within a Link"
