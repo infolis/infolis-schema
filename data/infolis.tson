@@ -28,6 +28,7 @@
 		@type @id
 
 Algorithm
+	_id 
 	@context
 		dc:description "An algorithm, a set of steps to calculate something from input, producing output."
 		owl:sameAs

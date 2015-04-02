@@ -1,7 +1,19 @@
+# vim: ft=coffee :
 {
-	configuration: 'http://infolis/api/configurations/1'
+	algorithm: 'http://INFOLIS/data/algorithms/pdf2text'
+
 	startTime: 'Tue Mar 17 10:17:28 CET 2015'
-	state: 'NOT_STARTED'
 	endTime: null
-	outputFiles: '...'
+
+	state: 'NOT_STARTED'
+
+	inputValues: {
+		'http://INFOLIS/data/parameter/pdfInput': [
+			'http://INFOLIS/data/file1.pdf'
+			'http://INFOLIS/data/file2.pdf'
+			'http://INFOLIS/data/file.pdf'
+		]
+	}
+
+	# outputValues: { }
 }

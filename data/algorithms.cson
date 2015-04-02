@@ -1,12 +1,26 @@
 # vim: ft=coffee :
 [
 	{
+		'@context':
+			'@id': 'http://INFOLIS/data/parameter/pdfInput'
+			'dc:description': "These are the URIs of input files"
+	}
+	{
+		'@context':
+			'@id': 'http://INFOLIS/data/parameter/textOutput'
+			'dc:description': "These are the URIs of the generated text files. Order is stable."
+	}
+	{
+		'@context':
+			'@id': 'http://INFOLIS/data/algorithm/pdf2text'
+			'dc:description': 'This algorithm translates PDF to text'
 		title: "pdf2text"
-		version: "2015-01-25"
 		javaClass: "de.mannheim.uni.algorithm.PDF2Text"
-		inputValues:
-			pdfFiles: [{ type: 'Int', ref: 'File' }]
-		outputValues:
-			textFiles: [{ type: 'Array', ref: 'File' }]
+		hasInputParameters: [
+			'http://INFOLIS/data/parameter/pdfInput'
+		]
+		hasOutputParameters: [
+			'http://INFOLIS/data/parameter/textOutput'
+		]
 	}
 ]
