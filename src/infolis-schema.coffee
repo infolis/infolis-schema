@@ -2,13 +2,7 @@
 # Infolis Schema
 
 ###
-
-Async          = require 'async'
-Merge          = require 'deepmerge'
-Mongoose       = require 'mongoose'
-MongooseJSONLD = require 'mongoose-jsonld'
 TSON           = require 'tson'
-JsonLD2RDF     = require 'jsonld-rapper'
 
 class InfolisSchemas
 
@@ -24,12 +18,8 @@ class InfolisSchemas
 		if not @dbConnection
 			throw new Error("Need a DB Connection, provide 'dbConnection' to constructor")
 
-		@mongooseJSONLD = new MongooseJSONLD(
-			baseURI: 'http://www-test.bib.uni-mannheim.de/infolis'
-			apiPrefix: '/api'
-			schemaPrefix: '/schema'
-			expandContexts: ['basic', @ns]
-		)
+		if not @mongooseJSONLD
+			throw new Error("Must pass mongoose-jsonld instance 'mongooseJSONLD' to constructor")
 
 		@schemas = {}
 		@models = {}
@@ -65,6 +55,5 @@ class InfolisSchemas
 			return @onto
 
 module.exports = InfolisSchemas
-
 
 # ALT: test/test.coffee
