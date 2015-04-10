@@ -1,4 +1,4 @@
-# vim: ft=turtleson ts=2 list :
+# vim: ft=turtleson ts=2 sw=2 list :
 @ns
 	# infolis <http://www-test.bib.uni-mannheim.de/infolis/schema/>
 	# infolis <http://localhost:3000/schema/>
@@ -17,6 +17,7 @@
 	uri4uri <http://uri4uri.net/vocab#>
 	dm2e    <http://onto.dm2e.eu/schema/dm2e/>
 	omnom   <http://onto.dm2e.eu/schema/omnom/>
+	dcat    <http://www.w3.org/ns/dcat#>
 
 @context
 	@id: infolis:
@@ -106,8 +107,10 @@ File
 	fileName
 		@context
 			@type @id
-			@id omnom:fileName
+			owl:sameAs
+				@id omnom:fileName
 		type String
+		required: 1
 	fileStatus
 		@context
 			@id omnom:fileStatus
@@ -116,13 +119,16 @@ File
 			'AVAILABLE'
 			'DELETED'
 		]
+		required: 1
 	md5
 		@context
-			@id omnom:md5
+			owl:sameAs
+				@id omnom:md5
 			@type xsd:string
 			dc:description "MD5 checksum"
 		type String
 		validate 'MD5'
+		required: 1
 	sha1
 		@context
 			@id omnom:sha1
@@ -130,6 +136,18 @@ File
 			dc:description "SHA-1 checksum"
 		type String
 		validate 'SHA1'
+	mediaType
+		@context
+			owl:sameAs dcat:mediaType
+			dc:description "The IANA media type of this file"
+		type String
+		enum: [
+			"application/pdf"
+			"text/plain"
+			"text/csv"
+		]
+		required: false
+
 
 Person
 	@context
