@@ -2,7 +2,7 @@
 # Infolis Schema
 
 ###
-TSON           = require 'tson'
+TSON = require 'tson'
 
 class InfolisSchemas
 

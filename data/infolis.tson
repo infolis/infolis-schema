@@ -1,6 +1,6 @@
 # vim: ft=turtleson ts=2 list :
 @ns
-	infolis <http://www-test.bib.uni-mannheim.de/infolis/schema/>
+	# infolis <http://www-test.bib.uni-mannheim.de/infolis/schema/>
 	# infolis <http://localhost:3000/schema/>
 	dc      <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 	dc      <http://purl.org/dc/elements/1.1/>
