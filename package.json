@@ -1,6 +1,6 @@
 {
   "name": "infolis-schema",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Mongoose / JSON-LD schema for Infolis",
   "scripts": {
     "test": "coffee test/* | tap-spec",
