@@ -43,7 +43,7 @@ class InfolisSchemas
 				schemaDef = JSON.parse JSON.stringify schemaDef
 				# console.log schemaName
 				# console.log schemaDef
-				@schemas[schemaName] = @mongooseJSONLD.createSchema(schemaName, schemaDef)
+				@schemas[schemaName] = @mongooseJSONLD.createSchema(schemaName, schemaDef, {strict: false})
 				@models[schemaName] = @dbConnection.model(schemaName, @schemas[schemaName])
 				@onto['@graph'].push @models[schemaName].jsonldTBox()
 

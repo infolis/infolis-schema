@@ -56,6 +56,17 @@ Algorithm
 		@context
 			dc:description "The java class that implements this algorithm"
 
+# ParameterValues
+#   @context
+#     dc:description 'A JSON document defining the inputs or outputs of an Execution'
+#     rdfs:seeAlso 
+#       @id omnom:Configuration
+#   values
+#     @context
+#       owl:sameAs schema:algorithm
+#       @container @list
+#     type: ArrayOfStrings
+
 Execution
 	@context
 		dc:description "The concrete execution of an Algorithm"
@@ -65,26 +76,28 @@ Execution
 			@id: infolis:Algorithm
 	startTime
 		@context
-			@id schema:startTime
+			owl:sameAs schema:startTime
 			@type xsd:date
 			dc:description "Timestamp of the begin of this execution"
 		type Date
 	endTime
 		@context
-			@id schema:endTime
+			owl:sameAs schema:endTime
 			@type xsd:date
 			dc:description "Timestamp when the execution of this algorithm finished."
 		type Date
-
-Configuration
-	@context
-		dc:description 'A JSON document defining the inputs and environments of an Execution'
-		rdfs:seeAlso 
-			@id omnom:Configuration
-	forAlgorithm
+	inputValues
 		@context
-			@id schema:algorithm
-		type: [{ type: 'ObjectId', ref: 'Algorithm' }]
+			dc:description: "Map of String to List of String"
+		type Mixed
+	outputValues
+		@context
+			dc:description: "Map of String to List of String"
+		type Mixed
+	log
+		@context
+			dc:description "Log messages"
+		type: []
 
 Pattern
 	@context
@@ -129,13 +142,13 @@ File
 		type String
 		validate 'MD5'
 		required: 1
-	sha1
-		@context
-			@id omnom:sha1
-			@type xsd:string
-			dc:description "SHA-1 checksum"
-		type String
-		validate 'SHA1'
+	# sha1
+	#   @context
+	#     @id omnom:sha1
+	#     @type xsd:string
+	#     dc:description "SHA-1 checksum"
+	#   type String
+	#   validate 'SHA1'
 	mediaType
 		@context
 			owl:sameAs dcat:mediaType
@@ -144,7 +157,6 @@ File
 		enum: [
 			"application/pdf"
 			"text/plain"
-			"text/csv"
 		]
 		required: false
 
