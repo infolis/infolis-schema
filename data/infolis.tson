@@ -86,18 +86,43 @@ Execution
 			@type xsd:date
 			dc:description "Timestamp when the execution of this algorithm finished."
 		type Date
-	inputValues
+	algorithm
 		@context
-			dc:description: "Map of String to List of String"
-		type Mixed
-	outputValues
+			dc:description "java class of this algorithm"
+		required true
+		type String
+	status
 		@context
-			dc:description: "Map of String to List of String"
-		type Mixed
+			dc:description "Status of this execution"
+		required true
+		type String
+		enum: [
+			"PENDING"
+			"STARTED"
+			"FAILED"
+			"FINISHED"
+		]
 	log
 		@context
 			dc:description "Log messages"
 		type: []
+	## Parameters
+	inputFiles
+		@context
+			dc:description "List of URIs of input files"
+		type: ArrayOfStrings
+	outputFiles
+		@context
+			dc:description "List of URIs of output files"
+		type: ArrayOfStrings
+	removeBib
+		@context
+			dc:description "Whether to remove the bibliography from a text document."
+		type String
+	outputDirectory
+		@context
+			dc:description "Output directory."
+		type String
 
 Pattern
 	@context
