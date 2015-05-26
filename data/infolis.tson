@@ -167,13 +167,13 @@ File
 		type String
 		validate 'MD5'
 		required: 1
-	# sha1
-	#   @context
-	#     @id omnom:sha1
-	#     @type xsd:string
-	#     dc:description "SHA-1 checksum"
-	#   type String
-	#   validate 'SHA1'
+	tags
+		@context
+			owl:sameAs
+				@id dc:subject
+			dc:description "A set of free form tags to attach to files"
+		type ArrayOfStrings
+		required: no
 	mediaType
 		@context
 			owl:sameAs dcat:mediaType
