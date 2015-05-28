@@ -1,0 +1,9 @@
+{
+    "algorithm": "io.github.infolis.algorithm.PatternApplier",
+    "inputFiles": [
+        "http://..../123"
+    ],
+    "pattern": [
+        "http://...../123"
+    
+}
