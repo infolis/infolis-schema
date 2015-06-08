@@ -1,7 +1,7 @@
 # vim: ft=turtleson ts=2 sw=2 list :
 @ns
 	# infolis <http://www-test.bib.uni-mannheim.de/infolis/schema/>
-	# infolis <http://localhost:3000/schema/>
+	infolis <http://infolis.gesis.org/infolink/schema/>
 	dc      <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 	dc      <http://purl.org/dc/elements/1.1/>
 	owl     <http://www.w3.org/2002/07/owl#>
@@ -74,6 +74,11 @@ Execution
 			@id schema:Action
 		rdfs:seeAlso
 			@id: infolis:Algorithm
+	pattern
+		@context
+			rdfs:seeAlso
+				@id: infolis:Algorithm
+		type ArrayOfStrings
 	startTime
 		@context
 			owl:sameAs schema:startTime
@@ -106,6 +111,10 @@ Execution
 		@context
 			dc:description "Log messages"
 		type: []
+	terms
+		@context
+			dc:description "List of seeds"
+		type: ArrayOfStrings
 	## Parameters
 	inputFiles
 		@context
@@ -123,14 +132,47 @@ Execution
 		@context
 			dc:description "Output directory."
 		type String
+	studyContexts
+		@context
+			dc:description "Study contexts."
+		type ArrayOfStrings
+	threshold
+		@context
+			dc:description "Threshold ..."
+			# XXX BUG should be number but is not correctly ported over to Java then
+		type String
+	maxIterations
+		@context
+			dc:description "Threshold ..."
+			# XXX BUG should be number but is not correctly ported over to Java then
+		type String
 
-Pattern
+
+InfolisPattern
 	@context
 		dc:description 'A Regular Expression pattern'
-	regex
+	patternRegex
 		@context
-			@id dqm:regex
+			owl:sameAs 
+				@id dqm:regex
 		type String
+		required: yes
+	minimal
+		@context: {}
+		type String
+		required: no
+	luceneQuery
+		@context: {}
+		type String
+		required false
+	words
+		type: ArrayOfStrings
+	threshold
+		type Number
+		# TODO
+		# validate: 'Double'
+
+
 
 File
 	@context
@@ -167,13 +209,13 @@ File
 		type String
 		validate 'MD5'
 		required: 1
-	tags
-		@context
-			owl:sameAs
-				@id dc:subject
-			dc:description "A set of free form tags to attach to files"
-		type ArrayOfStrings
-		required: no
+	# sha1
+	#   @context
+	#     @id omnom:sha1
+	#     @type xsd:string
+	#     dc:description "SHA-1 checksum"
+	#   type String
+	#   validate 'SHA1'
 	mediaType
 		@context
 			owl:sameAs dcat:mediaType
@@ -239,29 +281,40 @@ Dataset
 StudyContext
 	@context
 		dc:description "A pattern matching a study name within the textual context within a document."
-	studyTerm
+	term
 		@context
 			dc:description "The term found"
-			@type xsd:string
 		type String
-	leftContext
+		required false
+	leftText
+		@context
+			dc:description "The words to the left of the study term as string"
+		type String
+	leftWords
 		@context
 			dc:description "The words to the left of the study term"
-		type: [{type: 'String'}]
-	rightContext
+		type ArrayOfStrings
+	rightText
+		@context
+			dc:description "The words to the right of the study term as string"
+		type String
+	rightWords
 		@context
 			dc:description "The words to the right of the study term"
-		type: [{type: 'String'}]
+		type ArrayOfStrings
 	pattern
 		@context
 			dc:description "The regular pattern used"
 			@type @id
-		type: [{type: 'ObjectId', ref: 'Pattern'}]
-	document
+		type String
+		# type: [{type: 'ObjectId', ref: 'InfolisPattern'}]
+		# type: [{type: 'ObjectId', ref: 'InfolisPattern'}]
+	file
 		@context
 			dc:description "The file from which this context was pulled."
 			@id prov:used
-		type: [{type: 'ObjectId', ref: 'File'}]
+		type String
+		# type: [{type: 'ObjectId', ref: 'File'}]
 
 DatasetToPublicationLink
 	@context
