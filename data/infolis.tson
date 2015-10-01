@@ -28,45 +28,6 @@
 	rdfs:seeAlso
 		@type @id
 
-Algorithm
-	@context
-		dc:description "An algorithm, a set of steps to calculate something from input, producing output."
-		owl:sameAs
-			@id science:SIO_000094
-	creator
-		type: [{ type: 'ObjectId', ref: 'Person' }]
-		@context
-			owl:sameAs 
-				@id dc:creator
-			dc:description: "The author/maintainer of this algorithm"
-	name
-		type String
-		@context
-			@id dc:title
-			dc:description "Name of the Algorithm"
-	lastModified
-		type Date
-		@context
-			owl:sameAs
-				@id: dc:modified
-			dc:description "Last time the algorithm was updated"
-	javaClass
-		type: String
-		validate: 'JavaClass'
-		@context
-			dc:description "The java class that implements this algorithm"
-
-# ParameterValues
-#   @context
-#     dc:description 'A JSON document defining the inputs or outputs of an Execution'
-#     rdfs:seeAlso 
-#       @id omnom:Configuration
-#   values
-#     @context
-#       owl:sameAs schema:algorithm
-#       @container @list
-#     type: ArrayOfStrings
-
 Execution
 	@context
 		dc:description "The concrete execution of an Algorithm"
@@ -74,6 +35,26 @@ Execution
 			@id schema:Action
 		rdfs:seeAlso
 			@id: infolis:Algorithm
+	algorithm
+		@context
+			dc:description "Java Class of this algorithm"
+		required true
+		type String
+	log
+		@context
+			dc:description "Log messages"
+		type: []
+	status
+		@context
+			dc:description "Status of this execution"
+		required true
+		type String
+		enum: [
+			"PENDING"
+			"STARTED"
+			"FAILED"
+			"FINISHED"
+		]
 	startTime
 		@context
 			owl:sameAs schema:startTime
@@ -86,27 +67,9 @@ Execution
 			@type xsd:date
 			dc:description "Timestamp when the execution of this algorithm finished."
 		type Date
-	algorithm
-		@context
-			dc:description "java class of this algorithm"
-		required true
-		type String
-	status
-		@context
-			dc:description "Status of this execution"
-		required true
-		type String
-		enum: [
-			"PENDING"
-			"STARTED"
-			"FAILED"
-			"FINISHED"
-		]
-	log
-		@context
-			dc:description "Log messages"
-		type: []
-	## Parameters
+	#
+	# Parameters
+	#
 	inputFiles
 		@context
 			dc:description "List of URIs of input files"
@@ -121,43 +84,198 @@ Execution
 		type String
 	outputDirectory
 		@context
-			dc:description "Output directory."
+			dc:description "Output directory of the indexer."
 		type String
+	phraseSlop
+		@context
+			dc:description "Phrase Slop for Lucene indexer."
+		type: Number
+	allowLeadingWildcards
+		@context
+			dc:description "Whether leading wildcards are allowed"
+		type: Boolean
+	maxClauseCount
+		@context
+			dc:description "TODO"
+		type: Number
+	searchTerm
+		@context
+			dc:description "TODO"
+		type String
+	searchQuery
+		@context
+			dc:description "TODO"
+		type String
+	textualReferences
+		@context
+			dc:description "References found"
+		type ArrayOfStrings
+	matchingFiles
+		@context
+			dc:description "Matching files"
+		type ArrayOfStrings
+	patterns
+		@context
+			dc:description "Generated patterns"
+		type ArrayOfStrings
+	seeds
+		@context
+			dc:description "The initial seeds for learning."
+		type ArrayOfStrings
+	maxIterations
+		@context
+			dc:description "Maximum number of iterations."
+		type Number
+	reliabilityThreshold
+		@context
+			dc:description "TODO"
+		type Number
+	links
+		@context
+			dc:description "The found EntityLinks."
+		type ArrayOfStrings
+	queryServices
+		@context
+			dc:description "List of QueryService to use"
+		type ArrayOfStrings
+	searchResults
+		@context
+			dc:description "Search results"
+		type ArrayOfStrings
+
+SearchQuery
+	@context
+		dc:description "A search query"
+	query
+		@context
+			dc:description "The query string"
+		type String
+
+Entity
+	@context
+		dc:description "An entity to be linked from or to, a Dataset or a Publication or a SearchResult"
+	name
+		@context
+			dc:description "TODO"
+		type String
+	identifier
+		@context
+			dc:description "TODO"
+		type String
+	tags
+		@context
+			dc:description "TODO"
+		type ArrayOfStrings
+	textualReferences
+		@context
+			dc:description
+		type ArrayOfStrings
+
+Publication
+	@context
+		dc:description "A publication"
+		rdfs:subClassOf
+			@id infolis:Entity
+	name
+		@context
+			dc:description "TODO"
+		type String
+	identifier
+		@context
+			dc:description "TODO"
+		type String
+	tags
+		@context
+			dc:description "TODO"
+		type ArrayOfStrings
+	textualReferences
+		@context
+			dc:description
+		type ArrayOfStrings
+	infolisFile
+		@context
+			dc:description "The InfolisFile that manifests this entity"
+		type String
+
+SearchResult
+	@context
+		dc:description "A search result"
+		rdfs:subClassOf
+			@id infolis:Entity
+	name
+		@context
+			dc:description "TODO"
+		type String
+	identifier
+		@context
+			dc:description "TODO"
+		type String
+	tags
+		@context
+			dc:description "TODO"
+		type ArrayOfStrings
+	textualReferences
+		@context
+			dc:description
+		type ArrayOfStrings
+	listIndex
+		@context
+			dc:description "Position in the list of search results"
+		type Number
+	relevanceScore
+		@context
+			dc:description "Relevance score as calculated by the search engine"
+		type Number
+	date
+		@context
+			dc:description "TODO"
+		type String
+	queryService
+		@context
+			dc:description "TODO"
+		type String
+	titles
+		@context
+			dc:description "TODO"
+		type ArrayOfStrings
+	numericInformation
+		@context
+			dc:description "TODO"
+		type ArrayOfStrings
 
 Pattern
 	@context
 		dc:description 'A Regular Expression pattern'
-	regex
+	patternRegex
 		@context
 			@id dqm:regex
 		type String
+	luceneQuery
+		@context
+			dc:description "TODO"
+		type String
+	minimal
+		@context
+			dc:description "TODO"
+		type String
+	words
+		@context
+			dc:description "TODO"
+		type ArrayOfStrings
+	threshold
+		@context
+			dc:description "TODO"
+		type Number
+	reliability
+		@context
+			dc:description "TODO"
+		type Number
 
-File
+
+InfolisFile
 	@context
 		owl:sameAs
 			@id omnom:File
-	created
-		type Date
-		@context
-			owl:sameAs
-				@id: dc:created
-			dc:description "Timestamp when this File was uploaded"
-	fileName
-		@context
-			@type @id
-			owl:sameAs
-				@id omnom:fileName
-		type String
-		required: 1
-	fileStatus
-		@context
-			@id omnom:fileStatus
-		type: String
-		enum: [
-			'AVAILABLE'
-			'DELETED'
-		]
-		required: 1
 	md5
 		@context
 			owl:sameAs
@@ -167,13 +285,13 @@ File
 		type String
 		validate 'MD5'
 		required: 1
-	tags
+	fileName
 		@context
+			@type @id
 			owl:sameAs
-				@id dc:subject
-			dc:description "A set of free form tags to attach to files"
-		type ArrayOfStrings
-		required: no
+				@id omnom:fileName
+		type String
+		required: 1
 	mediaType
 		@context
 			owl:sameAs dcat:mediaType
@@ -184,101 +302,25 @@ File
 			"text/plain"
 		]
 		required: false
-
-
-Person
-	@context
-		@id foaf:Person
-		@vocab 'foaf:'
-	surname
-		type String
-	given
+	fileStatus
 		@context
-			@id foaf:givenName
-		type String
-
-Publication
-	@context
-		@id bibo:Document
-		dc:description 'A publication, see'
-	author
-		@context
-			@id bibo:author
-		type: [{ type: 'ObjectId', ref: 'Person' }]
-	title
-		@context
-			@id dc:title
-		type String
-	type
-		@context
-			dc:description "The values are the same as those in citeproc"
-			@id dc:format
-		type String
+			@id omnom:fileStatus
+		type: String
 		enum: [
-			"article", "article-magazine", "article-newspaper", "article-journal"
-			"bill", "book", "broadcast", "chapter", "dataset", "entry"
-			"entry-dictionary", "entry-encyclopedia", "figure", "graphic"
-			"interview", "legislation", "legal_case", "manuscript", "map"
-			"motion_picture", "musical_score", "pamphlet", "paper-conference"
-			"patent", "post", "post-weblog", "personal_communication", "report"
-			"review", "review-book", "song", "speech", "thesis", "treaty", "webpage"
+			'AVAILABLE'
+			'DELETED'
 		]
-	
-Dataset
-	@context
-		dc:description "A published set of data"
-	title
+		required: 1
+	tags
 		@context
-			@id dc:title
-		type String 
-	version
+			owl:sameAs
+				@id dc:subject
+			dc:description "A set of free form tags to attach to files"
+		type ArrayOfStrings
+		required: no
+	created
+		type Date
 		@context
-			@id doap:version
-		type String
-
-StudyContext
-	@context
-		dc:description "A pattern matching a study name within the textual context within a document."
-	studyTerm
-		@context
-			dc:description "The term found"
-			@type xsd:string
-		type String
-	leftContext
-		@context
-			dc:description "The words to the left of the study term"
-		type: [{type: 'String'}]
-	rightContext
-		@context
-			dc:description "The words to the right of the study term"
-		type: [{type: 'String'}]
-	pattern
-		@context
-			dc:description "The regular pattern used"
-			@type @id
-		type: [{type: 'ObjectId', ref: 'Pattern'}]
-	document
-		@context
-			dc:description "The file from which this context was pulled."
-			@id prov:used
-		type: [{type: 'ObjectId', ref: 'File'}]
-
-DatasetToPublicationLink
-	@context
-		dc:description "A link from a publication to a dataset"
-		rdfs:seeAlso 
-			@id infolis:Publication
-		rdfs:seeAlso
-			@id infolis:Dataset
-	publication
-		@context
-			dc:description "The Publication within a Link"
-		type: [{ type: 'ObjectId', ref: 'Publication' }]
-	dataset
-		@context
-			dc:description "The Dataset within a Link"
-		type: [{ type: 'ObjectId', ref: 'Dataset' }]
-	confidence
-		@context
-			dc:description "A confidence value for how sure we are of this link TODO"
-		type String
+			owl:sameAs
+				@id: dc:created
+			dc:description "Timestamp when this File was uploaded"
