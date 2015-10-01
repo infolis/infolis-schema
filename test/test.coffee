@@ -2,7 +2,7 @@
 # Chai.should()
 should = require 'should'
 # Assert   = require 'assert'
-Mongoose = require 'mongoose'
+# Mongoose = require 'mongoose'
 
 InfolisSchemas = require '../src/infolis-schema'
 
@@ -30,7 +30,7 @@ describe 'Algorithm - Person', ->
 				given: 'John'
 				surname: 'Doe'
 			}
-			person._id.should.be.an.instanceof(Mongoose.Types.ObjectId)
+			# person._id.should.be.an.instanceof(Mongoose.Types.ObjectId)
 			person.save (err) ->
 				person._id.should.not.be.ok()
 				algo = new Algorithm {

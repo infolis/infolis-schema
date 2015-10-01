@@ -20,10 +20,6 @@
   },
   "homepage": "https://github.com/infolis/infolis-schema",
   "dependencies": {
-    "async": "^0.9.0",
-    "deepmerge": "^0.2.7",
-    "merge": "^1.2.0",
-    "mongoose": "^4.0.1",
     "tson": "0.0.5"
   },
   "devDependencies": {

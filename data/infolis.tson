@@ -34,7 +34,7 @@ Execution
 		rdfs:subClassOf 
 			@id schema:Action
 		rdfs:seeAlso
-			@id: infolis:Algorithm
+			@id: 'infolis:Algorithm'
 	algorithm
 		@context
 			dc:description "Java Class of this algorithm"
@@ -93,7 +93,7 @@ Execution
 	allowLeadingWildcards
 		@context
 			dc:description "Whether leading wildcards are allowed"
-		type: Boolean
+		type Boolean
 	maxClauseCount
 		@context
 			dc:description "TODO"
@@ -168,7 +168,7 @@ Entity
 		type ArrayOfStrings
 	textualReferences
 		@context
-			dc:description
+			dc:description "TODO"
 		type ArrayOfStrings
 
 Publication
@@ -190,7 +190,7 @@ Publication
 		type ArrayOfStrings
 	textualReferences
 		@context
-			dc:description
+			dc:description "TODO"
 		type ArrayOfStrings
 	infolisFile
 		@context
@@ -216,7 +216,7 @@ SearchResult
 		type ArrayOfStrings
 	textualReferences
 		@context
-			dc:description
+			dc:description "TODO"
 		type ArrayOfStrings
 	listIndex
 		@context
