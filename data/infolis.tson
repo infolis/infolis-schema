@@ -23,7 +23,7 @@
 	@id: infolis:
 	dc:description "Infolis Data model"
 	dc:version
-		@value "2015-03-15"
+		@value "2015-10-06"
 		@type xsd:int
 	rdfs:seeAlso
 		@type @id
